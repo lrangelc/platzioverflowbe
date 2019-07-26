@@ -1,6 +1,6 @@
 const question = {
 	_id: 1,
-	title: 'Holaaaa ¿Cómo reutilizo un componente en Android?',
+	title: '¿Cómo reutilizo un componente en Android?',
 	description: 'Miren esta es mi pregunta',
 	createdAt: new Date(),
 	icon: 'devicon-android-plain',
@@ -19,11 +19,16 @@ function getQuestions(req, res) {
 	// setTimeout(() => {
 	// 	res.status(200).json(questions);
 	// }, 2000);
+
 	res.status(200).json(questions);
 }
 
 function getQuestion(req, res) {
-	res.status(200).json(question);
+	setTimeout(() => {
+		res.status(200).json(question);
+	}, 2000);
+
+	// res.status(200).json(question);
 }
 
 export default {
