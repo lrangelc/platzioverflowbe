@@ -4,14 +4,17 @@
   "description": "express platzioverflow",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently -r \"npm run start:server\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:server": "DEBUG=platzioverflowbe* babel-node server/index.js"
+    "start:server": "DEBUG=platzioverflowbe* nodemon server/index.js --exec babel-node"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^4.1.1",
     "debug": "^4.1.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
