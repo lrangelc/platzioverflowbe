@@ -7,6 +7,6 @@ api.get('/questions', questionCtrl.getQuestions);
 api.get('/question/:id', questionCtrl.getQuestion);
 
 // POST /api/questions
-api.post('/questions/:id', questionCtrl.addQuestion);
+api.post('/questions', questionCtrl.addQuestion);
 
 export default api;
