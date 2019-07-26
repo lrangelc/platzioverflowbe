@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently -r \"npm run start:server\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:server": "DEBUG=platzioverflowbe* nodemon server/index.js --exec babel-node"
+    "start:server": "NODE_ENV=development DEBUG=platzioverflowbe* nodemon server/index.js --exec babel-node"
   },
   "author": "",
   "license": "ISC",
