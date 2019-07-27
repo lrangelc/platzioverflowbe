@@ -43,6 +43,7 @@ app.use(cors());
 
 
 // GET /api/questions
+// READ QUESTIONS
 app.get('/', (req,res)=>{
     // setTimeout(()=>{
     //     res.status(200).json(questions)
@@ -52,6 +53,7 @@ app.get('/', (req,res)=>{
 })
 
 // GET /api/questions/:id
+// READ question
 app.get('/:id', questionMiddleware, (req, res) => {    
     // setTimeout(()=>{
     //     res.status(200).json(req.question)
@@ -61,6 +63,7 @@ app.get('/:id', questionMiddleware, (req, res) => {
 })
 
 // POST /api/questions
+// CREATE question
 app.post('/', userMiddleware, (req, res) => {
     console.log('Add new Question');
     const question = req.body;
