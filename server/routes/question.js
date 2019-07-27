@@ -4,10 +4,11 @@ import cors from 'cors';
 const app = express.Router();
 
 const currentUser = {
-    email: 'aaaa@aaa.com',
+    email: 'luis@gmail.com',
     password: '1234',
-    firstName: 'Sacha',
-    lastName: 'Lifszyc'
+    firstName: 'Luis',
+    lastName: 'Rangel',
+    _id: 999
 };
 
 const question = {
@@ -17,12 +18,7 @@ const question = {
     createdAt: new Date(),
     icon: 'devicon-android-plain',
     answers: [],
-    user: {
-        email: 'aaaa@aaa.com',
-        password: '1234',
-        firstName: 'Sacha',
-        lastName: 'Lifszyc'
-    }
+    user: currentUser
 };
 
 const questions = new Array(10).fill(question);
