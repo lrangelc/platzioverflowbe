@@ -44,7 +44,7 @@ app.use(cors());
 
 // GET /api/questions
 // READ QUESTIONS
-app.get('/', (req,res)=>{
+app.get('/', (req, res) => {
     // setTimeout(()=>{
     //     res.status(200).json(questions)
     // }, 1000);
@@ -54,7 +54,7 @@ app.get('/', (req,res)=>{
 
 // GET /api/questions/:id
 // READ question
-app.get('/:id', questionMiddleware, (req, res) => {    
+app.get('/:id', questionMiddleware, (req, res) => {
     // setTimeout(()=>{
     //     res.status(200).json(req.question)
     // }, 1000);
