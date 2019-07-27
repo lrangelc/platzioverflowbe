@@ -1,28 +1,13 @@
 import express from 'express';
-import cors from 'cors';
 import Debug from 'debug';
+import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import { secret } from '../config'
+import { users, findUserByEmail } from '../middleware';
 
 const app = express.Router();
+
 const debug = new Debug('platzioverflowbe:auth');
-
-const secret = 'miclavesecreta';
-
-const users = [
-    {
-        email: 'luis@gmail.com',
-        password: '1234',
-        firstName: 'Luis',
-        lastName: 'Rangel',
-        _id: 999
-    }
-];
-
-// const findUserByEmail = e => users.find({email} => email === e)
-
-function findUserByEmail(email) {
-    return users.find(user => user.email === email)
-}
 
 function comparePasswords(providedPassword, userPassword) {
     return providedPassword === userPassword;
@@ -60,7 +45,7 @@ app.post('/signin', (req, res, next) => {
 })
 
 
-app.post('/signup', (req, res, next) => {    
+app.post('/signup', (req, res, next) => {
     debug(`Creating new user Try!`);
 
     const { firstName, lastName, email, password } = req.body;

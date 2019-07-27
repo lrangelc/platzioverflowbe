@@ -1,49 +1,32 @@
 import express from 'express';
 import cors from 'cors';
+import { required, questionMiddleware, questionsMiddleware,questions } from '../middleware';
 
 const app = express.Router();
 
-const currentUser = {
-    email: 'luis@gmail.com',
-    password: '1234',
-    firstName: 'Luis',
-    lastName: 'Rangel',
-    _id: 999
-};
+// const currentUser = {
+//     email: 'luis@gmail.com',
+//     password: '1234',
+//     firstName: 'Luis',
+//     lastName: 'Rangel',
+//     _id: 999
+// };
 
-const question = {
-    _id: 1,
-    title: 'fafa¿Cómo reutilizo un componente en Android?',
-    description: 'Miren esta es mi pregunta...',
-    createdAt: new Date(),
-    icon: 'devicon-android-plain',
-    answers: [],
-    user: currentUser
-};
-
-const questions = new Array(10).fill(question);
-
-function questionMiddleware(req, res, next) {
-    const { id } = req.params;
-    req.question = questions.find(({ _id }) => _id === +id);
-    next();
-}
-
-function userMiddleware(req, res, next) {
-    req.user = currentUser;
-    next();
-}
+// function userMiddleware(req, res, next) {
+//     req.user = currentUser;
+//     next();
+// }
 
 app.use(cors());
 
 // GET /api/questions
 // READ QUESTIONS
-app.get('/', (req, res) => {
+app.get('/', questionsMiddleware, (req, res) => {
     // setTimeout(()=>{
     //     res.status(200).json(questions)
     // }, 1000);
 
-    res.status(200).json(questions);
+    res.status(200).json(req.questions);
 })
 
 // GET /api/questions/:id
@@ -58,7 +41,7 @@ app.get('/:id', questionMiddleware, (req, res) => {
 
 // POST /api/questions
 // CREATE question
-app.post('/', userMiddleware, (req, res) => {
+app.post('/', required, (req, res) => {
     console.log('Add new Question');
     const question = req.body;
     question._id = +new Date();
@@ -71,7 +54,8 @@ app.post('/', userMiddleware, (req, res) => {
 })
 
 // POST /api/questions/:id/answers
-app.post('/:id/answers', questionMiddleware, userMiddleware, (req, res) => {
+// CREATE answer
+app.post('/:id/answers', required, questionMiddleware, (req, res) => {
     const answer = req.body;
     const q = req.question;
     answer.createdAt = new Date();
