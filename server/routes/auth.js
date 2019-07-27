@@ -12,9 +12,9 @@ const users = [
     {
         email: 'luis@gmail.com',
         password: '1234',
-        firstName: 'Sacha',
-        lastName: 'Lifszyc',
-        _id: 123
+        firstName: 'Luis',
+        lastName: 'Rangel',
+        _id: 999
     }
 ];
 
