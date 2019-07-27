@@ -38,9 +38,7 @@ function userMiddleware(req, res, next) {
     next();
 }
 
-
 app.use(cors());
-
 
 // GET /api/questions
 // READ QUESTIONS

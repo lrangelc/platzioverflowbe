@@ -1,4 +1,5 @@
-import express from 'express';;
+import express from 'express';
+import cors from 'cors';
 import Debug from 'debug';
 import jwt from 'jsonwebtoken';
 
@@ -9,7 +10,7 @@ const secret = 'miclavesecreta';
 
 const users = [
     {
-        email: 'aaaa@aaa.com',
+        email: 'luis@gmail.com',
         password: '1234',
         firstName: 'Sacha',
         lastName: 'Lifszyc',
@@ -26,6 +27,8 @@ function findUserByEmail(email) {
 function comparePasswords(providedPassword, userPassword) {
     return providedPassword === userPassword;
 }
+
+app.use(cors());
 
 app.post('/signin', (req, res, next) => {
     const { email, password } = req.body;
@@ -56,7 +59,7 @@ app.post('/signin', (req, res, next) => {
 
 function handleLoginFailde(res) {
     return res.status(401).json({
-        message: 'Login faildes',
+        message: 'Login fails',
         error: 'Email and password don\'t match'
     })
 }
