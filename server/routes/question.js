@@ -1,6 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import { required, questionMiddleware, questionsMiddleware,questions } from '../middleware';
+// import { required, questionMiddleware, questionsMiddleware, questions } from '../middleware';
+import { required } from '../middleware';
+import { question } from '../db-api';
+import {handleError} from '../utils';
 
 const app = express.Router();
 
@@ -21,22 +24,42 @@ app.use(cors());
 
 // GET /api/questions
 // READ QUESTIONS
-app.get('/', questionsMiddleware, (req, res) => {
+// app.get('/', questionsMiddleware, (req, res) => {
+app.get('/', async (req, res) => {
     // setTimeout(()=>{
     //     res.status(200).json(questions)
     // }, 1000);
 
-    res.status(200).json(req.questions);
+    try {
+        const questions = await question.findAll();
+        res.status(200).json(questions);
+    }
+    catch (err) {
+        res.status(500).json({
+            message: 'An error ocurred',
+            error: err
+        })
+    }
 })
 
 // GET /api/questions/:id
 // READ question
-app.get('/:id', questionMiddleware, (req, res) => {
+app.get('/:id', async (req, res) => {
     // setTimeout(()=>{
     //     res.status(200).json(req.question)
     // }, 1000);
 
-    res.status(200).json(req.question);
+    try {
+        const q = await question.findById(req.params.id);
+        res.status(200).json(q);
+    }
+    catch (err) {
+        // handleError(err,res);
+        res.status(500).json({
+            message: 'An error ocurred',
+            error: err
+        })
+    }
 })
 
 // POST /api/questions
@@ -55,7 +78,7 @@ app.post('/', required, (req, res) => {
 
 // POST /api/questions/:id/answers
 // CREATE answer
-app.post('/:id/answers', required, questionMiddleware, (req, res) => {
+app.post('/:id/answers', required, (req, res) => {
     const answer = req.body;
     const q = req.question;
     answer.createdAt = new Date();
