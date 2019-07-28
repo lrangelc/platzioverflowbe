@@ -3,7 +3,7 @@ import cors from 'cors';
 // import { required, questionMiddleware, questionsMiddleware, questions } from '../middleware';
 import { required } from '../middleware';
 import { question } from '../db-api';
-import {handleError} from '../utils';
+import { handleError } from '../utils';
 
 const app = express.Router();
 

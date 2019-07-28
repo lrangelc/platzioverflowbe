@@ -5,17 +5,17 @@ import { declareVariable } from '@babel/types';
 
 const debug = new Debug('platzioverflowbe:auth-middleware');
 
-export const users = [
-    {
-        email: 'luis@gmail.com',
-        password: '1234',
-        firstName: 'Luis',
-        lastName: 'Rangel',
-        _id: 999
-    }
-];
+// export const users = [
+//     {
+//         email: 'luis@gmail.com',
+//         password: '1234',
+//         firstName: 'Luis',
+//         lastName: 'Rangel',
+//         _id: 999
+//     }
+// ];
 
-export const findUserByEmail = e => users.find(({email}) => email === e)
+// export const findUserByEmail = e => users.find(({email}) => email === e)
 
 // function findUserByEmail(email) {
 //     return users.find(user => user.email === email)

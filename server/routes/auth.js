@@ -2,24 +2,30 @@ import express from 'express';
 import Debug from 'debug';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
-import { secret } from '../config'
-import { users, findUserByEmail } from '../middleware';
+import { secret } from '../config';
+import { User } from '../models';
+import {
+    hashSync as hash,
+    compareSync as comparePasswords
+} from 'bcryptjs';
+// import { users, findUserByEmail } from '../middleware';
 
 const app = express.Router();
 
 const debug = new Debug('platzioverflowbe:auth');
 
-function comparePasswords(providedPassword, userPassword) {
-    return providedPassword === userPassword;
-}
+// function comparePasswords(providedPassword, userPassword) {
+//     return providedPassword === userPassword;
+// }
 
 app.use(cors());
 
-app.post('/signin', (req, res, next) => {
+app.post('/signin', async (req, res, next) => {
     debug(`Login user Try!`);
 
     const { email, password } = req.body;
-    const user = new findUserByEmail(email);
+    // const user = new findUserByEmail(email);
+    const user = await User.findOne({ email });
 
     if (!user) {
         debug(`User with email ${email} not found`);
@@ -45,19 +51,26 @@ app.post('/signin', (req, res, next) => {
 })
 
 
-app.post('/signup', (req, res, next) => {
+app.post('/signup', async (req, res, next) => {
     debug(`Creating new user Try!`);
 
     const { firstName, lastName, email, password } = req.body;
-    const user = {
-        _id: +new Date(),
+    // const user = {
+    //     _id: +new Date(),
+    //     firstName,
+    //     lastName,
+    //     email,
+    //     password
+    // };
+    const u = new User({
         firstName,
         lastName,
         email,
-        password
-    };
-    debug(`Creating new user: ${user}`);
-    users.push(user);
+        password: hash(password, 10)
+    });
+    debug(`Creating new user: ${u}`);
+    const user = await u.save();
+    // users.push(user);
 
     //crear token
     const token = createToken(user);
