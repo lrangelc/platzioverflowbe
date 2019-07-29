@@ -1,11 +1,14 @@
 import express from 'express';
 import cors from 'cors';
-// import { required, questionMiddleware, questionsMiddleware, questions } from '../middleware';
-import { required } from '../middleware';
+import { required, questionMiddleware } from '../middleware';
 import { question } from '../db-api';
 import { handleError } from '../utils';
+import Debug from 'debug';
+// import { required, questionMiddleware, questionsMiddleware, questions } from '../middleware';
 
 const app = express.Router();
+
+const debug = new Debug('platzioverflowbe:routes:question');
 
 // const currentUser = {
 //     email: 'luis@gmail.com',
@@ -44,14 +47,14 @@ app.get('/', async (req, res) => {
 
 // GET /api/questions/:id
 // READ question
-app.get('/:id', async (req, res) => {
+app.get('/:id', questionMiddleware, async (req, res) => {
     // setTimeout(()=>{
     //     res.status(200).json(req.question)
     // }, 1000);
 
     try {
-        const q = await question.findById(req.params.id);
-        res.status(200).json(q);
+        // const q = await question.findById(req.params.id);
+        res.status(200).json(req.question);
     }
     catch (err) {
         // handleError(err,res);
@@ -64,27 +67,49 @@ app.get('/:id', async (req, res) => {
 
 // POST /api/questions
 // CREATE question
-app.post('/', required, (req, res) => {
+app.post('/', required, async (req, res) => {
     console.log('Add new Question');
-    const question = req.body;
-    question._id = +new Date();
-    question.user = req.user;
-    question.createdAt = new Date();
-    question.answers = [];
+    // const question = req.body;
+    // question._id = +new Date();
+    // question.user = req.user;
+    // question.createdAt = new Date();
+    // question.answers = [];
 
-    questions.push(question);
-    res.status(201).json(question);
+    // questions.push(question);
+
+    const { title, description, icon } = req.body;
+    const q = {
+        title,
+        description,
+        icon,
+        user: req.user._id
+    };
+
+    try {
+        const savedQuestion = await question.create(q);
+        res.status(201).json(savedQuestion);
+    }
+    catch (err) {
+        handleError(err, res);
+    }
 })
 
 // POST /api/questions/:id/answers
 // CREATE answer
-app.post('/:id/answers', required, (req, res) => {
-    const answer = req.body;
+app.post('/:id/answers', required, questionMiddleware, async (req, res) => {
+    const a = req.body;
     const q = req.question;
-    answer.createdAt = new Date();
-    answer.user = req.user;
-    q.answers.push(answer);
-    res.status(201).json(answer);
+    a.createdAt = new Date();
+    a.user = req.user._id;
+    // a.user = new User(req.user);
+
+    try {
+        const saveAnswer = await question.createAnswer(q, a);
+        res.status(201).json(saveAnswer);
+    }
+    catch (err) {
+        handleError(err, res);
+    }
 })
 
 export default app;

@@ -1,3 +1,8 @@
+// import question from "../models/question";
+import { question } from '../db-api';
+import { handleError } from '../utils';
+
+
 // const question = {
 //     _id: 1,
 //     title: 'fafa¿Cómo reutilizo un componente en Android?',
@@ -26,3 +31,14 @@
 //     req.question = questions.find(({ _id }) => _id === +id);
 //     next();
 // }
+
+
+export const questionMiddleware = async (req, res, next) => {
+    try {
+        req.question = await question.findById(req.params.id);
+        next();
+    }
+    catch (err) {
+        handleError(err, res)
+    }
+}
