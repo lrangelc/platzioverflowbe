@@ -16,8 +16,8 @@ async function findAnswerById  (id)  {
 }
 
 export default {
-    findAll: async () => {
-        return await Question.find().populate('answers');
+    findAll: async (sort = '-createdAt') => {
+        return await Question.find().populate('answers').sort(sort);
     },
 
     findById: async (id) => {

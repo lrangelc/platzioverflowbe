@@ -34,7 +34,8 @@ app.get('/', async (req, res) => {
     // }, 1000);
 
     try {
-        const questions = await question.findAll();
+        const { sort } = req.query;
+        const questions = await question.findAll(sort);
         res.status(200).json(questions);
     }
     catch (err) {
