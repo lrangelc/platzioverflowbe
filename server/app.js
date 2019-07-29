@@ -12,7 +12,8 @@ app.get('/', (req, res) => res.send('Hola desde Express!'));
 if (process.env.NODE_ENV === 'production') {
     // app.use(express.static(path.join(process.cwd(), 'dist/platzioverflowbe')));
     // app.use('/', express.static(path.join(process.cwd(), 'dist/platzioverflowbe')));
-    app.use('/', express.static(process.cwd() + '/dist/platzioverflowbe'));
+    // app.use('/', express.static(process.cwd() + '/dist/platzioverflowbe'));
+    app.use('/', express.static(process.cwd() + '/dist'));
 }
 
 app.use('/api/questions', question);
