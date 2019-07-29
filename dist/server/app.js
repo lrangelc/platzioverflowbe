@@ -23,7 +23,9 @@ app.get('/', function (req, res) {
 });
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(_express["default"]["static"](path.join(process.cwd(), 'dist')));
+  // app.use(express.static(path.join(process.cwd(), 'dist/platzioverflowbe')));
+  // app.use('/', express.static(path.join(process.cwd(), 'dist/platzioverflowbe')));
+  app.use('/', _express["default"]["static"](process.cwd() + '/dist/platzioverflowbe'));
 }
 
 app.use('/api/questions', _routes.question);
