@@ -5,12 +5,18 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently -r \"npm run start:server\"",
+    "start:prod": "NODE_ENV=production node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:server": "NODE_ENV=development DEBUG=platzioverflowbe* nodemon server/index.js --exec babel-node"
+    "start:server": "NODE_ENV=development DEBUG=platzioverflowbe* nodemon server/index.js --exec babel-node",
+    "build": "npm run build:server",
+    "build:server": "babel server --out-dir dist/server",
+    "postinstall": "npm run build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.1",

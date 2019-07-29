@@ -9,6 +9,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => res.send('Hola desde Express!'));
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(process.cwd(), 'dist')));
+}
+
 app.use('/api/questions', question);
 app.use('/api/auth', auth);
 
