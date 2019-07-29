@@ -50,6 +50,7 @@ export default {
         const savedAnswer = await answer.save();
 
         q.answers.push(answer);
+        q.answers_count = q.answers_count + 1;
         await q.save();
         
         return await findAnswerById(savedAnswer._id);
